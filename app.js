@@ -107,6 +107,9 @@ guessBtn.addEventListener('click', () => {
   // Validate
   if (isNaN(guess) || guess < min || guess > max) {
     setMessage(`Please enter a number between ${min} and ${max}`, 'red');
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
   }
 
   // Check if won
@@ -119,16 +122,14 @@ guessBtn.addEventListener('click', () => {
 
     if (guessesLeft === 0) {
       // Game over - lost
-      // Disable input
-      guessInput.disabled = true;
-      // Change border color
-      guessInput.style.borderColor = 'red';
-      // Set message
-      setMessage(
-        `Game Over, you lost. The correct number was ${winningNum}`,
-        'red'
+      gameOver(
+        false,
+        `Game Over, you lost. The correct number was ${winningNum}`
       );
-    } else {
+    } else if (
+      !(isNaN(guess) || guess < min || guess > max) &&
+      guessesLeft > 0
+    ) {
       // Game continues - answer wrong
 
       // Change border color
